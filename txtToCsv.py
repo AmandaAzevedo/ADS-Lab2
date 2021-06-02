@@ -3,44 +3,47 @@ import csv
 
 def loaddingFiles(x):
     listNameFiles=[]
+    print("The files read will be:")
     for k in range(x):
-        i = "arq%s.txt"%str(k)
+        i = "out/arq%s.txt"%str(k)
         listNameFiles.append(i)
+        print(i)
     importData(listNameFiles)
 
 def importData(listNameFiles):
     data=[]
-    for file in listNameFiles:
-        if (os.path.exists(file)):
-            file=open(file, 'r', encoding='utf-8')
+    print("\n")
+    for nameFile in listNameFiles:
+        if (os.path.exists(nameFile)):
+            file=open(nameFile, 'r', encoding='utf-8')
+            cont=0
             for line in file:
-                l=line.strip()
-                data.append(l[1])
+                if(cont == 0):
+                    cont=1
+                else: 
+                    l=line.strip().split(" ")
+                    data.append(l)
+                    cont=0
+                    print("%s data that was read:"%nameFile)
+                    print(l)
             file.close()
-    convertDataInLineOfCSV(data)
-
-def convertDataInLineOfCSV(data):
-    lineCSV=[]
-    for item in data:
-        line=item.split(" ")
-        lineCSV.append(line)
-    writeToCSVFile(lineCSV)
+    writeToCSVFile(data)
+  
 
 def createCSVFile():
-    exit=os.system('test -d "out/activity-data2.csv" && return 1')
-    if (exit != 1):
-        os.system('touch out/activity-data2.csv')
-    else:
-        print("out/activity-data2.csv file already exists")
+    os.system('touch out/activity-data2.csv')
 
 def writeToCSVFile(itemList):
     createCSVFile()
-    fileCSV=open("out/activity-data2.csv", 'w', newline='', encoding='utf-8')
+    print("\nThe data is being saved to the file out/activity-data2.csv...")
+    fileCSV=open("out/activity-data2.csv", 'w', newline='' , encoding='utf-8')
+    header=["TaxaDeChegadaMedia", "TempoDeServicoMedio", "NumServidores", "RequisicoesSubmetidas", "RequisicoesConcluidas", "TempoMedioDeResposta", "TamanhoMedioDaFila"]
     w=csv.writer(fileCSV)
+    w.writerow(header)
     for item in itemList:
         w.writerow(item)
-    w.close()
     fileCSV.close()
+    print("\nData has been saved to file out/activity-data2.csv")
 
 
-loaddingFiles(10)
+loaddingFiles(2)
