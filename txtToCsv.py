@@ -4,8 +4,9 @@ import csv
 def loaddingFiles(x):
     listNameFiles=[]
     for k in range(x):
-        x = "arq%s.txt"%str(k)
-    return listNameFiles
+        i = "arq%s.txt"%str(k)
+        listNameFiles.append(i)
+    importData(listNameFiles)
 
 def importData(listNameFiles):
     data=[]
@@ -16,14 +17,14 @@ def importData(listNameFiles):
                 l=line.strip()
                 data.append(l[1])
             file.close()
-    return data
+    convertDataInLineOfCSV(data)
 
 def convertDataInLineOfCSV(data):
     lineCSV=[]
     for item in data:
         line=item.split(" ")
         lineCSV.append(line)
-    return lineCSV
+    writeToCSVFile(lineCSV)
 
 def createCSVFile():
     exit=os.system('test -d "out/activity-data2.csv" && return 1')
@@ -42,6 +43,4 @@ def writeToCSVFile(itemList):
     fileCSV.close()
 
 
-
-
-    
+loaddingFiles(10)
