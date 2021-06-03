@@ -1,20 +1,40 @@
 #!/bin/bash
 
+dayD=`date +%T`
+hourD=`date +%F` 
+
+# colors
+NC='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+
+
 exist="n"
 test -d "out" && exist="y" || exist="n"
 if [ "$exist" == "n" ];
 	then
 		mkdir out
-		echo "The out/ directory was created"
+		echo -e "{GREEN}The out/ directory was create ${NC}"
 else 
-	echo "The out/ directory already exists"
+	echo -e "${GREEN}The out/ directory already exists ${NC}"
 fi
 
 
-echo "Starting the execution of the practice 2"
+mkdir out/out-$dayD-$hourD
+echo -e "${GREEN}The out-$dayD-$hourD/ directory was created ${NC}"
 
 
-echo "Insert the input (typeVar tcm tsm numS tmpObs): "
+echo -e "\nStarting the execution of the practice 2"
+
+
+echo -e "\n ========== Insert the input (typeVar tcm tsm numS tmpObs) ========== "
+echo -e "tcm - Arrival rate of requests that are made to the web system, in requests per second."
+echo -e "tsm - Average service time for processing a request, in seconds."
+echo -e "numS - Number of servers (n) that will be used to process requests. In the implementation, each server is a thread of \n	the system, being possible to process up to n requests simultaneously in the web system."
+echo -e "tmpObs - Time during which the web system will be observed and measured in the simulation."
+echo -e "typeVar - typeVar is the parameter that does not have a fixed number, which the program will execute with different numbers"
+echo -e "\nIn the position where the attribute chosen in typeVar is, type the maximum value of the interaction. The maximum value of the interaction, from 1-n"
+echo -e "Enter the values ​​in the following order and format --> typeVar tcm tsm numS tmpObs"
 read typeVar tcm tsm numS tmpObs
 
 variable=""
@@ -37,12 +57,12 @@ fi
 contFor=$variable
 
 cont=0
-echo "=================== $contFor ========================"
+
 for i in $(seq 1 $contFor);
 do
 	day=`date +%T`
 	hour=`date +%F`
-	java -cp bin:lib/* ServidorWeb $tcm $tsm $numS $tmpObs > out/output-$typeVar-arq$cont-$day-$hour.txt
+	java -cp bin:lib/* ServidorWeb $tcm $tsm $numS $tmpObs > out/out-$dayD-$hourD/output-$typeVar-arq$cont-$day-$hour.txt
 	if [ $typeVar == "tcm" ];
 		then
 			tcm=$(($tcm-1))
@@ -56,22 +76,22 @@ do
 		then
 			tmpObs$(($tmpObs-1))
 	fi
-	echo "out/output-$typeVar-arq$cont-$day-$hour.txt file created"
+	echo -e "${GREEN}\n${i}: out-$dayD-$hourD/output-$typeVar-arq$cont-$day-$hour.txt file created${NC} "
 	if [ $cont == 0 ];
-		then 
-			head -n 1 out/output-$typeVar-arq$cont-$day-$hour.txt | tail -n 1 > out/tmp.txt
+		then
+			head -n 1 out/out-$dayD-$hourD/output-$typeVar-arq$cont-$day-$hour.txt | tail -n 1 > out/out-$dayD-$hourD/tmp.txt
 	fi
-	head -n 2 out/output-$typeVar-arq$cont-$day-$hour.txt | tail -n 1 >> out/tmp.txt
-	echo "The list with the results of out/arq$cont.txt have been saved in the file out/tmp.txt"
+	head -n 2 out/out-$dayD-$hourD/output-$typeVar-arq$cont-$day-$hour.txt | tail -n 1 >> out/out-$dayD-$hourD/tmp.txt
+	echo -e "${i}: The list with the results of out/out-$dayD-$hourD/arq$cont.txt have been saved in the file out/out-$dayD-$hourDD/tmp.txt "
 	cont=$(($cont+1))
 done
 
-tr -s " " < out/tmp.txt | sed 's/ /,/g' >  out/results.txt
-echo "The results are passing from the results.txt file to a atv2-results-$typeVar.csv file"
+tr -s " " < out/out-$dayD-$hourD/tmp.txt | sed 's/ /,/g' >  out/out-$dayD-$hourD/results.txt
+echo -e "\nThe results are passing from the out/out-$dayD-$hourD/results.txt file to a out/out-$dayD-$hourD/atv2-results-$typeVar.csv file"
 
-sed 's/ \+/,/g' out/results.txt > out/atv2-results-$typeVar.csv
-echo "Results saved in out/atv2-results-$typeVar.csv file"
+sed 's/ \+/,/g' out/out-$dayD-$hourD/results.txt > out/out-$dayD-$hourD/atv2-results-$typeVar.csv
+echo -e "\n${GREEN}Results saved in out/out-$dayD-$hourD/atv2-results-$typeVar.csv file${NC}"
 
 
-rm out/results.txt out/tmp.txt
-echo "Temporary files deleted"
+rm out/out-$dayD-$hourD/results.txt out/out-$dayD-$hourD/tmp.txt
+echo -e "${GREEN} \nTemporary files deleted${NC}"
