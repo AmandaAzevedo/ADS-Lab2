@@ -1,0 +1,2 @@
+TaxaDeChegadaMedia TempoDeServicoMedio NumServidores RequisicoesSubmetidas RequisicoesConcluidas TempoMedioDeResposta TamanhoMedioDaFila
+47.000000 0.840000 8 1365 264 11.007626 470.844697
