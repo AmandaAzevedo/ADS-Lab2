@@ -76,13 +76,13 @@ do
 		then
 			tmpObs$(($tmpObs-1))
 	fi
-	echo -e "${GREEN}\n${i}: out-$dayD-$hourD/output-$typeVar-arq$cont-$day-$hour.txt file created${NC} "
+	echo -e "${GREEN}\n${cont}: out-$dayD-$hourD/output-$typeVar-arq$cont-$day-$hour.txt file created${NC} "
 	if [ $cont == 0 ];
 		then
 			head -n 1 out/out-$dayD-$hourD/output-$typeVar-arq$cont-$day-$hour.txt | tail -n 1 > out/out-$dayD-$hourD/tmp.txt
 	fi
 	head -n 2 out/out-$dayD-$hourD/output-$typeVar-arq$cont-$day-$hour.txt | tail -n 1 >> out/out-$dayD-$hourD/tmp.txt
-	echo -e "${i}: The list with the results of out/out-$dayD-$hourD/arq$cont.txt have been saved in the file out/out-$dayD-$hourDD/tmp.txt "
+	echo -e "${cont}: The list with the results of out/out-$dayD-$hourD/arq$cont.txt have been saved in the file out/out-$dayD-$hourDD/tmp.txt "
 	cont=$(($cont+1))
 done
 
