@@ -15,7 +15,7 @@ if [ "$exist" == "n" ];
 	then
 		mkdir out
 		echo -e "{GREEN}The out/ directory was create ${NC}"
-else 
+else
 	echo -e "${GREEN}The out/ directory already exists ${NC}"
 fi
 
@@ -37,22 +37,25 @@ echo -e "\nIn the position where the attribute chosen in typeVar is, type the ma
 echo -e "Enter the values ​​in the following order and format --> typeVar tcm tsm numS tmpObs"
 read typeVar tcm tsm numS tmpObs
 
-variable=""
+variable=0.00
 
 
-if [ $typeVar == "tcm" ];
-	then
+case $typeVar in
+	tcm)
 		variable=$tcm
-elif [ $typeVar == "tsm" ];
-	then
+		;;
+	tsm)
 		variable=$tsm
-elif [ $typeVar == "numS" ];
-	then
+		;;
+	numS)
 		variable=$numS
-elif [ $typeVar == "tmpObs" ];
-	then
+		;;
+	tmpObs)
 		variable=$tmpObs
-fi
+		;;
+esac
+
+echo "O valor inicial do numS é ${GREEN}  $numS  ${NC}"
 
 contFor=$variable
 
@@ -63,19 +66,20 @@ do
 	day=`date +%T`
 	hour=`date +%F`
 	java -cp bin:lib/* ServidorWeb $tcm $tsm $numS $tmpObs > out/out-$dayD-$hourD/output-$typeVar-arq$cont-$day-$hour.txt
-	if [ $typeVar == "tcm" ];
-		then
+	case $typeVar in
+		tcm)
 			tcm=$(($tcm-1))
-	elif [ $typeVar == "tsm" ];
-		then
+			;;
+		tsm)
 			tsm=$(($tsm-1))
-	elif [ $typeVar == "numS"];
-		then
+			;;
+		numS)
 			numS=$(($numS-1))
-	elif [ $typeVar == "tmpObs"];
-		then
+			;;
+		tmpObs)
 			tmpObs$(($tmpObs-1))
-	fi
+			;;
+	esac
 	echo -e "${GREEN}\n${cont}: out-$dayD-$hourD/output-$typeVar-arq$cont-$day-$hour.txt file created${NC} "
 	if [ $cont == 0 ];
 		then
