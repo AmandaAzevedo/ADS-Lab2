@@ -20,16 +20,3 @@ ggplot(question3) +
        y="Average response time",
        title = "Question 3. Response time variation by number of servers")
 
-
-
-
-# Question 4 answer chart
-question4 <- read.csv("/Users/Amanda/Documents/Repositorios/ADS-Lab2/out/out-12_28_21-2021-06-03/atv2-results-tcm.csv")
-ggplot(question4) + 
-  aes (x = TaxaDeChegadaMedia, y = TempoMedioDeResposta) + 
-  geom_line(col="#030CE6", lwd=1) +
-  labs(x="TaxaDeChegadaMedia",
-       y="TempoMedioDeResposta",
-       title = "Question 4. Average response time per arrival rate")
-
-
